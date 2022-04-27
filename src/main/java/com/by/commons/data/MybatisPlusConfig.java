@@ -1,4 +1,4 @@
-package data;
+package com.by.commons.data;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

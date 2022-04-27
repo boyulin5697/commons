@@ -1,4 +1,6 @@
-package contexts;
+package com.by.commons.contexts;
+
+import com.by.commons.contexts.Context;
 
 /**
  * 上下文工具类

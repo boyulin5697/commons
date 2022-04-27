@@ -1,4 +1,4 @@
-package tools;
+package com.by.commons.tools;
 
 import org.apache.commons.lang3.StringUtils;
 

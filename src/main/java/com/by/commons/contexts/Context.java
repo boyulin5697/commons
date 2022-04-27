@@ -1,4 +1,4 @@
-package contexts;
+package com.by.commons.contexts;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
