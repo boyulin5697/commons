@@ -3,7 +3,7 @@ package com.by.commons.tools;
 import java.util.Random;
 
 /**
- * 随机数生成工具
+ * Generate random code
  */
 public class GenerateCodeTool {
     public static String generateCode(int n) {

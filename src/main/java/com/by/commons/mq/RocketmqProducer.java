@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 /**
- *Mq standard producer
+ *RocketMQ standard producer
  * @author by.
  * @date 2022/4/28
  */
@@ -23,42 +23,42 @@ public class RocketmqProducer {
     private RocketMQTemplate rocketMQTemplate;
 
     /**
-     * 基础发送异步消息方法
+     * Basic async sending message
      * @param topic
      * @param contentMap
      */
-    public void sendAsync(String topic, Map<String,Object> contentMap){
+    public void asyncSend(String topic, Map<String,Object> contentMap){
         rocketMQTemplate.asyncSend(topic, contentMap, new SendCallback() {
             @Override
             public void onSuccess(SendResult sendResult) {
-                log.warn("发送异步消息并处理成功,消费为{} ",sendResult.getSendStatus());
+                log.info("Successfully send async message and result is {} ",sendResult.getSendStatus());
             }
 
             @Override
             public void onException(Throwable throwable) {
-                log.error("异步消息处理失败或超时",throwable);
+                log.error("Async message send failed",throwable);
             }
         },300000);
     }
 
     /**
-     * 延时消息发送方法
+     * Sending delay message, about delay level please see the
      * @param topic
      * @param contentMap
      * @param delayLevel
      */
     public void sendDelayMessage(String topic, Map<String,Object>contentMap, int delayLevel){
         rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload(contentMap).build(),2000,delayLevel);
-        log.info("延时消息已发送");
+        log.info("Successfully send delay message!");
     }
 
     /**
      * 同步消息发送方法
      * @param topic
      * @param contentMap
+     * @return sendResult
      */
-    public void sendSyncMessage(String topic, Map<String,Object>contentMap){
-        rocketMQTemplate.syncSend(topic,contentMap);
-        log.info("已发送同步消息");
+    public SendResult sendMessage(String topic, Map<String,Object>contentMap){
+        return rocketMQTemplate.syncSend(topic,contentMap);
     }
 }
