@@ -6,9 +6,9 @@ import org.springframework.util.Assert;
 
 @Data
 public class QueryEvt {
-    @ApiModelProperty(value = "页数", required = false)
+    @ApiModelProperty(value = "pageNo(页数)", required = false)
     private Integer queryPage = 1;
-    @ApiModelProperty(value = "查询条数", required = false)
+    @ApiModelProperty(value = "querySizePerPage(每页查询条数)", required = false)
     private Integer querySize = 10;
 
     public void verify(){

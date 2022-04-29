@@ -7,7 +7,7 @@ import java.lang.annotation.*;
  * verifying existence of some required params.
  * These params could be updated via future updates.
  *
- * If there is no requirement for identity checking in the interfaces, don't use this!
+ * If there is no requirement for identity checking in the destination interfaces, don't use this!
  *
  *
  * @author by.

@@ -53,7 +53,7 @@ public class RocketmqProducer {
     }
 
     /**
-     * 同步消息发送方法
+     * Sync message sending process
      * @param topic
      * @param contentMap
      * @return sendResult

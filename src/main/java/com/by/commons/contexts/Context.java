@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 新版上下文
+ * New version of Context
  * @author by.
  */
 @Getter
