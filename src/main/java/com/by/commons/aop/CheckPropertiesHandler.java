@@ -47,17 +47,16 @@ public class CheckPropertiesHandler {
                 ip = IpUtils.getIpAddress(httpServletRequest);
             }
         }
-        if(!checkProperties.checkRight().equals("common")){
-            try{
-                if(checkRightHandle(right,checkProperties.checkRight())){
-                    assignToContext(userId, right);
-                }else {
-                    return new StandardResp<>().error(ResponseCodeEnum.NO_AUTH, "Don't have rights to assess!");
-                }
-            }catch (Exception e){
-                return new StandardResp<>().error(ResponseCodeEnum.INTERNAL_ERROR,e.getMessage());
+        try{
+            if(checkRightHandle(right,checkProperties.checkRight())){
+                assignToContext(userId, right);
+            }else {
+                return new StandardResp<>().error(ResponseCodeEnum.NO_AUTH, "Don't have rights to assess!");
             }
+        }catch (Exception e){
+            return new StandardResp<>().error(ResponseCodeEnum.INTERNAL_ERROR,e.getMessage());
         }
+
         if(checkProperties.checkIp()){
 
         }
@@ -75,10 +74,7 @@ public class CheckPropertiesHandler {
     private boolean checkRightHandle(String rightLevel,String requireLevel)throws Exception{
         int rl = UserRightLevel.map.get(rightLevel);
         int rql = UserRightLevel.map.get(requireLevel);
-        if(rl<rql){
-            return false;
-        }
-        return true;
+        return rl >= rql;
     }
 
     /**

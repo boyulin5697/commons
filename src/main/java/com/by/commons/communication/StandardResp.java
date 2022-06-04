@@ -37,7 +37,7 @@ public class StandardResp<T> implements Serializable {
 
     public StandardResp error() {
         this.setCode(ResponseCodeEnum.INTERNAL_ERROR);
-        this.setMessage("操作失败");
+        this.setMessage("Failed!");
         Date date = new Date();
         this.setTime(date);
         return this;
@@ -62,11 +62,11 @@ public class StandardResp<T> implements Serializable {
     }
 
     public boolean success() {
-        return this.getCode() == 200 ? true : false;
+        return this.getCode() == 200;
     }
 
     public boolean hasRecord() {
-        return success() && this.data != null ? true : false;
+        return success() && this.data != null;
     }
 
     public StandardResp success(T data, String respMsg) {
@@ -80,7 +80,7 @@ public class StandardResp<T> implements Serializable {
 
     public StandardResp success(T data) {
         this.setCode(ResponseCodeEnum.SUCCESS);
-        this.setMessage("操作成功");
+        this.setMessage("Success!");
         this.setData(data);
         Date date = new Date();
         this.setTime(date);

@@ -20,8 +20,8 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface CheckProperties {
-    //Restrict to assess right, default admin level
-    String checkRight() default "admin";
+    //Restrict to assess right, default common level
+    String checkRight() default "common";
     //Check whether checkIp is useful
     boolean checkIp() default false;
 }

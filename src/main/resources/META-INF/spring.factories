@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.by.commons.data.MybatisPlusConfig,\
+  com.by.commons.mq.RocketmqProducer,\
+  com.by.commons.aop.CheckPropertiesHandler
