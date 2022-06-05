@@ -38,13 +38,20 @@ public class CheckPropertiesHandler {
         StringBuffer buffer = new StringBuffer();
         String userId = null;
         String right = null;
+        String auth = null;
         String ip = null;
         for(Object object:args){
             if(object instanceof HttpServletRequest){
                 HttpServletRequest httpServletRequest = (HttpServletRequest) object;
                 userId = httpServletRequest.getHeader("userNo");
                 right = httpServletRequest.getHeader("authLevel");
+                auth = httpServletRequest.getHeader("Auth");
                 ip = IpUtils.getIpAddress(httpServletRequest);
+            }
+        }
+        if(!checkProperties.debug()){
+            if(auth==null||!auth.equals("Authed!")){
+                return new StandardResp<>().error(ResponseCodeEnum.NO_AUTH,"No access outside debug mode!");
             }
         }
         try{

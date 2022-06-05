@@ -24,4 +24,6 @@ public @interface CheckProperties {
     String checkRight() default "common";
     //Check whether checkIp is useful
     boolean checkIp() default false;
+    //In debug mode, the "Auth" header would not check automatically.
+    boolean debug() default true;
 }
