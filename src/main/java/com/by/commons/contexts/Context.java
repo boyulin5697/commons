@@ -14,7 +14,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Context {
-    private String userNo;//用户编号
-    private String admin;//管理员权限表征
-    private String ipAddress;//ip地址
+    /**
+     * user no
+     */
+    private String userNo;
+    /**
+     * user right symbol
+     */
+    private String admin;
+    /**
+     * ip address
+     */
+    private String ipAddress;
 }

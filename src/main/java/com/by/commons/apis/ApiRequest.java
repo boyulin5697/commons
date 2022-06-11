@@ -7,5 +7,8 @@ package com.by.commons.apis;
  * @date 2022/6/3
  */
 public interface ApiRequest {
+    /**
+     * All frontend requests most implement this method to achieve param check operation.
+     */
     void verify();
 }

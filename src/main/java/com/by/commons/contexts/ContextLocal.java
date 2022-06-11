@@ -5,15 +5,15 @@ package com.by.commons.contexts;
  * @author by.
  */
 public class ContextLocal {
-    private static final ThreadLocal<Context> contextLocal = new ThreadLocal<>();
+    private static final ThreadLocal<Context> CONTEXT_LOCAL = new ThreadLocal<>();
     private ContextLocal(){}
     public static Context getContext(){
-        return contextLocal.get();
+        return CONTEXT_LOCAL.get();
     }
     public static void setContext(Context context){
-        contextLocal.set(context);
+        CONTEXT_LOCAL.set(context);
     }
     public static void remove(){
-        contextLocal.remove();
+        CONTEXT_LOCAL.remove();
     }
 }
