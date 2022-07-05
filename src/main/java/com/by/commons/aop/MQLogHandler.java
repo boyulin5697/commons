@@ -29,12 +29,12 @@ public class MQLogHandler {
     @Autowired
     private RocketMQLogDao logDao;
 
-    @Pointcut(value = "execution(public * com.by.commons.mq.RocketmqProducer.sendDelayMessage())")
+    @Pointcut(value = "execution(* com.by.commons.mq.RocketmqProducer.sendDelayMessage(..))")
     public void MQDelayLogPointCut(){
 
     }
 
-    @Pointcut(value = "execution(public * com.by.commons.mq.RocketmqProducer.sendMessage()))")
+    @Pointcut(value = "execution(* com.by.commons.mq.RocketmqProducer.sendMessage(..)))")
     public void MQLogPointCut(){
 
     }
@@ -67,7 +67,7 @@ public class MQLogHandler {
         }
     }
 
-    @AfterThrowing(throwing = "e",pointcut = "MQLogPointCut()")
+    @AfterThrowing(throwing = "e",value = "MQLogPointCut()")
     public void normalThrowAdvice(JoinPoint joinPoint,Exception e){
         Object[] params = joinPoint.getArgs();
         String topic = "";
@@ -97,7 +97,7 @@ public class MQLogHandler {
      * @param joinPoint input
      * @param sendResult output
      */
-    @AfterReturning(returning = "sendResult",pointcut = "MQDelayLogPointCut()")
+    @AfterReturning(returning = "sendResult",value = "MQDelayLogPointCut()")
     public void delayLog(JoinPoint joinPoint,SendResult sendResult){
         Object[] params = joinPoint.getArgs();
         String topic = "";
@@ -120,7 +120,7 @@ public class MQLogHandler {
         }
     }
 
-    @AfterThrowing(throwing = "e",pointcut = "MQLogPointCut()")
+    @AfterThrowing(throwing = "e",value = "MQLogPointCut()")
     public void delayThrowAdvice(JoinPoint joinPoint,Exception e){
         Object[] params = joinPoint.getArgs();
         String topic = "";

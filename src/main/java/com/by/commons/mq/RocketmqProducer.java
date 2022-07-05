@@ -75,7 +75,6 @@ public class RocketmqProducer {
     public SendResult sendDelayMessage(String topic, Map<String,Object>contentMap, int delayLevel){
         Assert.hasText(topic,"topic cannot be null");
         Assert.notNull(contentMap,"message map cannot be empty!");
-        RocketmqExecutionLog mqLog = new RocketmqExecutionLog();
         return rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload(contentMap).build(), 2000, delayLevel);
     }
 
