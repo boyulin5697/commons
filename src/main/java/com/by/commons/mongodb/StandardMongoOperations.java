@@ -24,6 +24,7 @@ import java.util.List;
  *
  * @author by.
  * @date 2022/5/12
+ * @since 1.0.3
  */
 @Slf4j
 public abstract class StandardMongoOperations<T>{

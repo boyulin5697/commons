@@ -5,6 +5,7 @@ package com.by.commons.apis;
  *
  * @author by.
  * @date 2022/6/3
+ * @since 1.0.2
  */
 public interface ApiRequest {
     /**

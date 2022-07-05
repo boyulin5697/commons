@@ -72,30 +72,11 @@ public class RocketmqProducer {
      * @param contentMap
      * @param delayLevel
      */
-    public void sendDelayMessage(String topic, Map<String,Object>contentMap, int delayLevel){
+    public SendResult sendDelayMessage(String topic, Map<String,Object>contentMap, int delayLevel){
         Assert.hasText(topic,"topic cannot be null");
         Assert.notNull(contentMap,"message map cannot be empty!");
         RocketmqExecutionLog mqLog = new RocketmqExecutionLog();
-        try {
-            SendResult result = rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload(contentMap).build(), 2000, delayLevel);
-            log.info("Successfully send delay message!");
-            mqLog.convert(result);
-            mqLog.setMqMessage(contentMap);
-            mqLog.setMessageType(2);
-            mqLog.setTopic(topic);
-            mqLog.setLogTime(new Date());
-            logDao.save(mqLog);
-        }
-        catch (Exception e){
-            log.error("delay message send failed",e);
-            mqLog.setId(UuidTool.getUUID());
-            mqLog.setExecuteStatus("Failed!");
-            mqLog.setTopic(topic);
-            mqLog.setInformation(e.getMessage());
-            mqLog.setMessageType(2);
-            mqLog.setLogTime(new Date());
-            logDao.save(mqLog);
-        }
+        return rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload(contentMap).build(), 2000, delayLevel);
     }
 
     /**
@@ -107,14 +88,6 @@ public class RocketmqProducer {
     public SendResult sendMessage(String topic, Map<String,Object>contentMap){
         Assert.hasText(topic,"topic cannot be null");
         Assert.notNull(contentMap,"message map cannot be empty!");
-        RocketmqExecutionLog mqLog = new RocketmqExecutionLog();
-        SendResult result = rocketMQTemplate.syncSend(topic, contentMap);
-        mqLog.convert(result);
-        mqLog.setMqMessage(contentMap);
-        mqLog.setMessageType(0);
-        mqLog.setTopic(topic);
-        mqLog.setLogTime(new Date());
-        logDao.save(mqLog);
-        return result;
+        return rocketMQTemplate.syncSend(topic, contentMap);
     }
 }
