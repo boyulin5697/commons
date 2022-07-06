@@ -1,5 +1,6 @@
 package com.by.commons.mongodb;
 
+import com.by.commons.data.PageModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 /**
@@ -115,5 +117,39 @@ public abstract class StandardMongoOperations<T>{
         return mongoTemplate.findOne(query, currentClass(), COLLECTION);
     }
 
+    /**
+     * count query result
+     * @param query query
+     * @return count value
+     */
+    public long count(Query query){
+        return mongoTemplate.count(query,currentClass());
+    }
 
+    /**
+     * Search function construction(rough and pageable)
+     * <p>This function supports mongodb specific search and page function.</p>
+     * <p>Only support data which not defined as fake deletion.</p>
+     * @param isRough Whether this search is rough or exact
+     * @param searchString the searched string
+     * @param searchItem the searched item
+     * @param pageNum the page Num
+     * @param pageSize the page size
+     */
+    public PageModel<List<T>> roughAndPageableSearch(boolean isRough, String searchString, String searchItem, long pageNum, long pageSize){
+        Query query = new Query();
+        long skip = (pageNum-1)*pageSize;
+        if (isRough) {
+            Pattern pattern = Pattern.compile("^.*"+searchString+".*");
+            query.addCriteria(new Criteria().and(searchItem).regex(pattern));
+        }else {
+            Criteria criteria = Criteria.where(searchItem).is(searchString);
+            query.addCriteria(criteria);
+        }
+        query.skip(skip);
+        query.limit((int)pageSize);
+        int totalCount = (int)count(query);
+        long totalPage = totalCount % pageSize == 0 ? totalCount / pageSize : totalCount / pageSize + 1;
+        return new PageModel<>(pageNum,totalPage,findByQuery(query));
+    }
 }
