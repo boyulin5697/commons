@@ -3,24 +3,10 @@ package com.by.commons.tools;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-/**
- * @author wanggl
- * @version V1.0
- * @Title: IpUtils
- * @Package cn.com.doone.tx.cloud.tool.common.util
- * @Description: (用一句话描述该文件做什么)
- * @date 2017/3/20 14:12
- */
+
 public class IpUtils {
 
-    /**
-     * 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址;
-     * @param request
-     * @return
-     * @throws IOException
-     */
     public static String getIpAddress(HttpServletRequest request) throws IOException {
-        // 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址
         String ip = request.getHeader("X-Forwarded-For");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {

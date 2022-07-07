@@ -1,6 +1,6 @@
 package com.by.commons.tools.modelmappers;
 
-import org.aspectj.lang.annotation.AfterThrowing;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.ConditionalConverter;
 import org.modelmapper.spi.NameTokenizer;

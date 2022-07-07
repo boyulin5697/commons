@@ -24,6 +24,10 @@ public @interface CheckProperties {
     String checkRight() default "common";
     //Check whether checkIp is useful
     boolean checkIp() default false;
-    //In debug mode, the "Auth" header would not check automatically.
+    /**
+     * In debug mode, the "Auth" header would not check automatically.
+     * This item is moved to spring boot configuration since 1.0.5
+     */
+    @Deprecated
     boolean debug() default true;
 }

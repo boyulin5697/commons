@@ -16,7 +16,6 @@ public class GenerateCodeTool {
         return sb.toString();
     }
     public static String verify(String s){
-
         return null;
     }
 }

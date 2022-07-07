@@ -12,6 +12,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,11 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 @Slf4j
 public class CheckPropertiesHandler {
+
+    @Value("${commons.checkproperties.debug}")
+    private boolean isDebugMode;
+
+
     @Pointcut(value = "@annotation(com.by.commons.annotations.CheckProperties)")
     public void checkPropertiesPointcut(){
 
@@ -49,7 +55,7 @@ public class CheckPropertiesHandler {
                 ip = IpUtils.getIpAddress(httpServletRequest);
             }
         }
-        if(!checkProperties.debug()){
+        if(!checkProperties.debug()||isDebugMode){
             if(auth==null||!auth.equals("Authed!")){
                 return new StandardResp<>().error(ResponseCodeEnum.NO_AUTH,"No access outside debug mode!");
             }
