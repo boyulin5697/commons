@@ -55,7 +55,7 @@ public class CheckPropertiesHandler {
                 ip = IpUtils.getIpAddress(httpServletRequest);
             }
         }
-        if(!checkProperties.debug()||isDebugMode){
+        if(!checkProperties.debug()||!isDebugMode){
             if(auth==null||!auth.equals("Authed!")){
                 return new StandardResp<>().error(ResponseCodeEnum.NO_AUTH,"No access outside debug mode!");
             }
