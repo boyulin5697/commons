@@ -47,7 +47,7 @@ public class MD5Utils {
     public static String generateMd5WithSalt(String key,String salt) {
         assert salt.length()==16;
         key = md5Hex(key + salt);
-        //将“盐”混到新生成的MD5码中，之所以这样做是为了后期更方便的校验明文和秘文，也可以不用这么做，不过要将“盐”单独存下来，不推荐这种方式
+        //mix salt into md5
         char[] cs = new char[48];
         for (int i = 0; i < 48; i += 3) {
             assert key != null;
