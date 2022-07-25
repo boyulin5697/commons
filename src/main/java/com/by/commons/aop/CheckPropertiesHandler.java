@@ -9,6 +9,7 @@ import com.by.commons.contexts.ContextLocal;
 import com.by.commons.tools.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -75,6 +76,11 @@ public class CheckPropertiesHandler {
         }
         obj = joinPoint.proceed(args);
         return obj;
+    }
+
+    @AfterReturning(value = "checkPropertiesPointcut()")
+    public void checkPropertiesAfterWard(){
+        ContextLocal.remove();
     }
 
     /**
