@@ -15,8 +15,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * AOP annotation handler
@@ -91,6 +93,7 @@ public class CheckPropertiesHandler {
      * @throws Exception
      */
     private boolean checkRightHandle(String rightLevel,String requireLevel)throws Exception{
+        Assert.isTrue(UserRightLevel.map.containsKey(rightLevel),"This user right level is illegal!");
         int rl = UserRightLevel.map.get(rightLevel);
         int rql = UserRightLevel.map.get(requireLevel);
         return rl >= rql;
@@ -103,6 +106,7 @@ public class CheckPropertiesHandler {
      */
     private boolean checkIpHandle()throws Exception{
         //todo:fulfill this logic
+
         return true;
     }
 
