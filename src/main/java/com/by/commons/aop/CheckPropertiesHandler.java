@@ -1,11 +1,13 @@
 package com.by.commons.aop;
 
 import com.by.commons.annotations.CheckProperties;
+import com.by.commons.apis.ApiLog;
 import com.by.commons.communication.StandardResp;
 import com.by.commons.consts.ResponseCodeEnum;
 import com.by.commons.consts.UserRightLevel;
 import com.by.commons.contexts.Context;
 import com.by.commons.contexts.ContextLocal;
+import com.by.commons.logs.ApiLogDao;
 import com.by.commons.tools.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,6 +15,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -31,7 +34,10 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class CheckPropertiesHandler {
 
-    @Value("${commons.checkproperties.debug}")
+    @Autowired
+    private ApiLogDao apiLogDao;
+
+    @Value(value = "${commons.checkproperties.debug}")
     private boolean isDebugMode;
 
 
@@ -48,6 +54,7 @@ public class CheckPropertiesHandler {
         String userId = null;
         String right = null;
         String auth = null;
+        String requestPath = null;
         String ip = null;
         for(Object object:args){
             if(object instanceof HttpServletRequest){
@@ -55,11 +62,12 @@ public class CheckPropertiesHandler {
                 userId = httpServletRequest.getHeader("userNo");
                 right = httpServletRequest.getHeader("authLevel");
                 auth = httpServletRequest.getHeader("Auth");
+                requestPath = httpServletRequest.getRequestURI();
                 ip = IpUtils.getIpAddress(httpServletRequest);
             }
         }
         if(!checkProperties.debug()||!isDebugMode){
-            if(auth==null||!auth.equals("Authed!")){
+            if(!"Authed!".equals(auth)){
                 return new StandardResp<>().error(ResponseCodeEnum.NO_AUTH,"No access outside debug mode!");
             }
         }
@@ -76,7 +84,11 @@ public class CheckPropertiesHandler {
         if(checkProperties.checkIp()){
 
         }
+        ApiLog apiLog = new ApiLog();
+        apiLog.setUserNo(userId);
+        apiLog.setRequestPath(requestPath);
         obj = joinPoint.proceed(args);
+        apiLogDao.save(apiLog);
         return obj;
     }
 

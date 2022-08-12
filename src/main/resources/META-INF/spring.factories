@@ -5,4 +5,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.by.commons.aop.CheckPropertiesHandler,\
   com.by.commons.logs.RocketMQLogDao,\
   com.by.commons.aop.MQLogHandler,\
-  com.by.commons.configuration.CheckPropertiesConfig
+  com.by.commons.configuration.CheckPropertiesConfig,\
+  com.by.commons.logs.ApiLogDao
