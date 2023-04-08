@@ -1,7 +1,6 @@
 package com.by.commons.mq;
 
 import com.by.commons.logs.RocketMQLogDao;
-import com.by.commons.tools.UuidTool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -40,6 +39,7 @@ public class RocketmqProducer {
         Assert.hasText(topic,"topic cannot be null");
         Assert.notNull(contentMap,"message map cannot be empty!");
         RocketmqExecutionLog mqLog = new RocketmqExecutionLog();
+        Long currentTimeMillis = System.currentTimeMillis();
         rocketMQTemplate.asyncSend(topic, contentMap, new SendCallback() {
             @Override
             public void onSuccess(SendResult sendResult) {
@@ -55,7 +55,12 @@ public class RocketmqProducer {
             @Override
             public void onException(Throwable throwable) {
                 log.error("Async message send failed",throwable);
-                mqLog.setId(UuidTool.getUUID());
+//                mqLog.setId(UuidTool.getUUID());
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("Failed");
+                stringBuilder.append("Async");
+                stringBuilder.append(currentTimeMillis);
+                mqLog.setId(stringBuilder.toString());
                 mqLog.setExecuteStatus("Failed!");
                 mqLog.setTopic(topic);
                 mqLog.setInformation(throwable.getMessage());
